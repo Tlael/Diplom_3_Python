@@ -1,7 +1,7 @@
 import allure
-from selenium.webdriver.common.by import By
+
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support import expected_conditions
 
 from pages.base_page import BasePage
 from resources.locators import POPUP_ORDER, SEARCH_ORDER_DETAILS_TEXT, LAST_ORDER, ORDER_NUMBER_IN_INFO_WINDOW, \
@@ -64,12 +64,6 @@ class OrderFeedPage(BasePage):
         self.safe_click(button_order_feed)
         self.wait_for_url_to_be(ORDER_FEED)
 
-    @allure.step("Закрытие модального окна")
-    def close_modal(self):
-        click_element = self.find_element(BUTTON_ACCOUNT)
-        self.driver.execute_script('arguments[0].click();', click_element)
-        self.driver.switch_to.default_content()  # Вернуться к основному окну
-
     @allure.step("Переход в личный кабинет")
     def goto_account(self):
         button_account = self.find_element(BUTTON_ACCOUNT)
@@ -97,3 +91,7 @@ class OrderFeedPage(BasePage):
         WebDriverWait(self.driver, 10).until(
             lambda driver: int(driver.find_element(*locator).text) > previous_count
         )
+
+    @allure.step("Ожидает, пока элемент станет кликабельным")
+    def wait_for_clickability(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(expected_conditions.element_to_be_clickable(locator))

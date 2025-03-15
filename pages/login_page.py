@@ -1,7 +1,8 @@
 import allure
 
 from pages.base_page import BasePage
-from resources.locators import FIELD_EMAIL, FIELD_PASSWORD, BUTTON_HISTORY_ORDERS, BUTTON_LOGOUT_IN_PROFILE
+from resources.locators import FIELD_EMAIL, FIELD_PASSWORD, BUTTON_HISTORY_ORDERS, BUTTON_LOGOUT_IN_PROFILE, \
+    BUTTON_LOGIN
 
 from resources.urls import PROFILE_URL, LOGIN_URL, MAIN_PAGE
 
@@ -56,3 +57,8 @@ class LoginPage(BasePage):
     def create_order(self):
         self.add_filling_to_order()
         self.click_create_order_button()
+
+    @allure.step("Клик по кнопке 'Личный кабинет'")
+    def click_button_login(self):
+        login_link = self.find_element(BUTTON_LOGIN)
+        self.safe_click(login_link)

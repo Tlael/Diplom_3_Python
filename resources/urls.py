@@ -1,6 +1,7 @@
-PROFILE_URL = 'https://stellarburgers.nomoreparties.site/account/profile'
-LOGIN_URL = 'https://stellarburgers.nomoreparties.site/login'
 MAIN_PAGE = 'https://stellarburgers.nomoreparties.site/'
-ORDER_HISTORY = 'https://stellarburgers.nomoreparties.site/account/order-history'
-FORGOT_PASS = 'https://stellarburgers.nomoreparties.site/forgot-password'
-ORDER_FEED = 'https://stellarburgers.nomoreparties.site/feed'
+
+PROFILE_URL = f'{MAIN_PAGE}account/profile'
+LOGIN_URL = f'{MAIN_PAGE}login'
+ORDER_HISTORY = f'{MAIN_PAGE}account/order-history'
+FORGOT_PASS = f'{MAIN_PAGE}forgot-password'
+ORDER_FEED = f'{MAIN_PAGE}feed'

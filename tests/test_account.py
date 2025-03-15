@@ -19,9 +19,7 @@ class TestAccount:
         ]
     )
     @allure.title('Переход в раздел "История заказов"')
-    def test_go_to_section_Order_History(self, browser, email, password):
-        browser.get(LOGIN_URL)
-        login_page = LoginPage(browser)
+    def test_go_to_section_Order_History(self, login_page, email, password):
         login_page.open_history_orders(email, password)
 
         assert login_page.get_current_url() == ORDER_HISTORY
@@ -32,9 +30,7 @@ class TestAccount:
         ]
     )
     @allure.title('Выход из аккаунта')
-    def test_logout(self, browser, email, password):
-        browser.get(LOGIN_URL)
-        login_page = LoginPage(browser)
+    def test_logout(self, login_page, email, password):
         login_page.logout(email, password)
 
         assert login_page.get_current_url() == LOGIN_URL

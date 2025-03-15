@@ -5,10 +5,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 
 from resources.data_user import PASSWORD, EMAIL
-from resources.locators import BUTTON_ACCOUNT, BUTTON_LOGIN, BUTTON_CONSTRUCTOR, BUTTON_ORDER_FEED, BUTTON_CRATOR_BUNS, \
-    POPUP, BUTTON_POPUP_CLOSED, FLUORESCENT_BUN, COUNTER_FLUORESCENT_BUN, FIELD_EMAIL, \
-    FIELD_PASSWORD, BUTTON_LOGIN_IN_ACCOUNT, CREATE_ORDER_BUTTON, YOUR_ORDER_MESSAGE, BASKET_ORDER
-from resources.urls import MAIN_PAGE, ORDER_FEED
+from resources.locators import BUTTON_ACCOUNT, BUTTON_LOGIN, FLUORESCENT_BUN, FIELD_EMAIL, FIELD_PASSWORD, \
+    BUTTON_LOGIN_IN_ACCOUNT, CREATE_ORDER_BUTTON, BASKET_ORDER
 
 
 class BasePage:
@@ -31,11 +29,10 @@ class BasePage:
 
     @allure.step("Ожидаем, пока элемент станет видимым")
     def wait_for_visibility(self, locator, timeout=10):
-        WebDriverWait(self.driver, timeout).until(expected_conditions.visibility_of_element_located(locator))
-
-    # Ожидает, пока элемент станет кликабельным
-    def wait_for_clickability(self, locator, timeout=10):
-        return WebDriverWait(self.driver, timeout).until(expected_conditions.element_to_be_clickable(locator))
+        element = WebDriverWait(self.driver, timeout).until(
+            expected_conditions.visibility_of_element_located(locator)
+        )
+        return element
 
     @allure.step("Очищаем и заполняем поле значением")
     def send_keys(self, element, text):
@@ -57,60 +54,6 @@ class BasePage:
         account_link = self.find_element(BUTTON_ACCOUNT)
         self.safe_click(account_link)
 
-    @allure.step("Клик по кнопке 'Личный кабинет'")
-    def click_button_login(self):
-        login_link = self.find_element(BUTTON_LOGIN)
-        self.safe_click(login_link)
-
-    @allure.step("Переход на страницу конструктора")
-    def to_go_click_constructor(self):
-        button_constructor = self.find_element(BUTTON_CONSTRUCTOR)
-        self.safe_click(button_constructor)
-        self.wait_for_url_to_be(MAIN_PAGE)
-
-    @allure.step("Переход на страницу ленты заказов")
-    def to_go_click_order_feed(self):
-        button_order_feed = self.find_element(BUTTON_ORDER_FEED)
-        self.safe_click(button_order_feed)
-        self.wait_for_url_to_be(ORDER_FEED)
-
-    @allure.step("Открыть попап")
-    def view_popup(self):
-        button_crator_buns = self.find_element(BUTTON_CRATOR_BUNS)
-        self.safe_click(button_crator_buns)
-        self.wait_for_visibility(POPUP)
-
-    @allure.step("Закрыть попап")
-    def click_closed_popup(self):
-        button_popup_closed = self.find_element(BUTTON_POPUP_CLOSED)
-        self.safe_click(button_popup_closed)
-
-    @allure.step("Ожидание видимости элемента")
-    def wait_for_visibility_popup(self, locator, timeout=10):
-        return WebDriverWait(self.driver, timeout).until(expected_conditions.visibility_of_element_located(locator))
-
-    @allure.step("Перетащить элемент")
-    def drag_and_drop(self, source, target):
-        try:
-            ActionChains(self.driver).drag_and_drop(source, target).perform()
-        except Exception:
-            self.driver.execute_script("""
-                const dataTransfer = new DataTransfer();
-                arguments[0].dispatchEvent(new DragEvent('dragstart', {dataTransfer}));
-                arguments[1].dispatchEvent(new DragEvent('drop', {dataTransfer}));
-            """, source, target)
-
-    @allure.step("Добавление флуоресцентной булочки в заказ")
-    def drag_and_drop_fluorescent_buns(self):
-        element_source = self.find_element(FLUORESCENT_BUN)
-        element_target = self.find_element(BASKET_ORDER)
-        self.drag_and_drop(element_source, element_target)
-
-    @allure.step("Получить количество добавленных ингредиентов")
-    def get_num_ingredients(self):
-        counter = self.find_element(COUNTER_FLUORESCENT_BUN)
-        return int(counter.text)
-
     @allure.step("Авторизация в личном кабинете")
     def profile_login(self):
         self.find_element(FIELD_EMAIL).send_keys(EMAIL)
@@ -123,10 +66,6 @@ class BasePage:
     def click_create_order_button(self):
         create_order_button = self.find_element(CREATE_ORDER_BUTTON)
         self.safe_click(create_order_button)
-
-    @allure.step("Получить информацию о заказе")
-    def get_order(self):
-        return self.find_element(YOUR_ORDER_MESSAGE)
 
     @allure.step("Получить текст элемента {locator}")
     def get_text(self, locator):

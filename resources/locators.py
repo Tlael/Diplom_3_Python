@@ -55,7 +55,7 @@ DETAILS_ING = (By.XPATH, "//h2[contains(text(),'Детали ингредиен�
 # Локаторы login_page
 
 # Кнопка История заказов
-BUTTON_HISTORY_ORDERS = (By.XPATH, '//*[@id="root"]/div/main/div/nav/ul/li[2]/a')
+BUTTON_HISTORY_ORDERS = (By.XPATH, '//*[@href="/account/order-history"]')
 
 # Кнопка Выход в профиле
 BUTTON_LOGOUT_IN_PROFILE = (By.XPATH, "//button[text()='Выход']")
@@ -92,11 +92,8 @@ ORDERS_AT_FEED = (By.XPATH, ".//div[@class='OrderHistory_textBox__3lgbs mb-6']//
 # Счетчик заказов за сегодня
 TOTAL_COUNT_TODAY = (By.XPATH, '//*[text() = "Выполнено за сегодня:"]/following::*[@class][1]')
 
-# Кнопка "Закрыть"
-BUTTON_CLOSE = (By.XPATH, '//button[contains(@class,"close")]')
-
 # Корзина заказов
-BASKET_ORDER = (By.XPATH, '/html/body/div/div/main/section[2]/ul/li[2]')
+BASKET_ORDER = (By.CSS_SELECTOR, '.BurgerConstructor_basket__list__l9dp_ li')
 
 # Локаторы password_recovery_page
 

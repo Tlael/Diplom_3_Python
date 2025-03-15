@@ -3,15 +3,13 @@ import allure
 from pages.login_page import LoginPage
 from pages.order_feed_page import OrderFeedPage
 from resources.locators import TOTAL_COUNT_TODAY
-from resources.urls import ORDER_FEED, LOGIN_URL
+from resources.urls import LOGIN_URL
 
 
 class TestOrderFeed:
 
     @allure.title('Всплывающее окно с деталями, при клике на заказ')
-    def test_pop_with_details_order(self, browser):
-        browser.get(ORDER_FEED)
-        order_feed_page = OrderFeedPage(browser)
+    def test_pop_with_details_order(self, order_feed_page):
         order_feed_page.navigate_to_order_feed()
         order_feed_page.wait_clickable_last_order()
         order_feed_page.click_order()

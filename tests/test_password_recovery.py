@@ -1,7 +1,7 @@
 import allure
-import pytest
 
 from pages.password_recovery_page import PasswordRecoveryPage
+from resources.data_user import EMAIL
 from resources.urls import FORGOT_PASS, LOGIN_URL
 
 
@@ -15,29 +15,15 @@ class TestPasswordRecovery:
 
         assert password_recovery_page.get_current_url() == FORGOT_PASS
 
-    @pytest.mark.parametrize(
-        'email', [
-            "Vika_Pavlova_17@yandex.ru"
-        ]
-    )
     @allure.title('Ввод почты и клик по кнопке «Восстановить»')
-    def test_recovery_pass(self, browser, email):
-        browser.get(FORGOT_PASS)
-        password_recovery_page = PasswordRecoveryPage(browser)
-        password_recovery_page.click_button_recovery(email)
+    def test_recovery_pass(self, password_recovery_page):
+        password_recovery_page.click_button_recovery(EMAIL)
 
         assert password_recovery_page.is_password_field_present()
 
-    @pytest.mark.parametrize(
-        'email', [
-            "Vika_Pavlova_17@yandex.ru"
-        ]
-    )
     @allure.title('Клик по кнопке показать/скрыть пароль делает поле активным')
-    def test_view_pass_active(self, browser, email):
-        browser.get(FORGOT_PASS)
-        password_recovery_page = PasswordRecoveryPage(browser)
-        password_recovery_page.click_button_recovery(email)
+    def test_view_pass_active(self, password_recovery_page):
+        password_recovery_page.click_button_recovery(EMAIL)
 
         parent_class_before_toggle = password_recovery_page.get_parent_class_password_field()
         password_recovery_page.toggle_password_visibility()
